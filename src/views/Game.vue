@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import GameComponent from '@/components/Game.vue'
+import GameComponent from '@/components/Game.vue';
 
 export default {
     name: 'Game',
@@ -12,7 +12,3 @@ export default {
     }
 }
 </script>
-
-<style>
-
-</style>

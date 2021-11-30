@@ -46,24 +46,29 @@ const actions = {
 
         if (state.status == 'started' && state.mode != 'easy' && !state.board.spaces[x][y].missed && !state.board.spaces[x][y].hited) {
             commit("SUSTRACT_TURN")
-        } else {
-            return;
+        }
+
+        if (state.board.turns == 0) {
+            commit('SET_STATUS', 'over');
         }
 
         if (state.board.spaces[x][y].ship) {
+            if (state.board.spaces[x][y].hited) return; 
             state.board.spaces[x][y].ship.hits++;
             state.board.spaces[x][y].hited = true;
 
             const log = new Log(`Ship ${state.board.spaces[x][y].ship.id} hited`, 'hit');
             commit('ADD_LOG', log);
+            commit("ADD_MOVE")
 
             if (state.board.spaces[x][y].ship.hits == state.board.spaces[x][y].ship.size) {
                 dispatch('sunk', { x, y});
             }
-        } else {
+        } else if (!state.board.spaces[x][y].missed) {
             state.board.spaces[x][y].missed = true;
             const log = new Log(`Shot missed`, 'miss');
             commit('ADD_LOG', log);
+            commit("ADD_MOVE")
         }
     },
     drawBoard({commit, state}) {
@@ -88,7 +93,8 @@ const actions = {
     start({commit, state}) {
         const log = new Log(`Game started on ${state.mode} mode`, 'info');
         commit('ADD_LOG', log);
-        commit('SET_TURNS', state.modes[state.mode].turns)
+        commit('RESET_MOVES');
+        commit('SET_BOARD_TURNS', state.modes.find(mode => mode.name === state.mode).turns || state.turns)
         commit('SET_STATUS', "started")
     },
     sunk({commit, state}, {x, y}) {
@@ -178,20 +184,56 @@ const actions = {
 
         commit('SET_SPACES', spaces)
     },
-    end({commit}, won) {
+    end({commit, state}, won) {
         const log = new Log(`Game ended`, 'info');
         commit('ADD_LOG', log);
         commit('SET_STATUS', "over")
         commit('SET_WON', won)
+        commit('ADD_HISTORY', {
+            won: Boolean(won),
+            moves: state.moves,
+            mode: state.mode,
+        })
     },
     addShip({commit}, ship) {
         commit('ADD_SHIP', ship)
     },
-    clear({commit}) {
-        commit('RESET_BOARD')
-        commit('RESET_LOG')
-        commit('RESET_STATUS')
+    replay({commit, dispatch, state}) {
+        commit('SET_SPACES', [])
+        dispatch('drawBoard')
+        dispatch('resetShips')
+        dispatch('initShips')
+        dispatch('placeShips')
+        commit('RESET_LOGS')
+        commit('RESET_MOVES');
+        commit('SET_STATUS', 'started')
+        commit('SET_BOARD_TURNS', state.modes.find(mode => mode.name === state.mode).turns || state.turns)
         commit('RESET_WON')
+    },
+    log({commit}, {message, type = 'info'}) {
+        const log = new Log(message, type);
+        commit('ADD_LOG', log)
+    },
+    clearLogs({commit}) {
+        commit("RESET_LOGS")
+    },
+    setMode({commit}, mode) {
+        commit('SET_MODE', mode)
+    },
+    setTurns({commit}, turns) {
+        commit('SET_TURNS', turns)
+    },
+    setStatus({commit}, status) {
+        commit('SET_STATUS', status)
+    },
+    resetTurns({commit}) {
+        commit('RESET_TURNS')
+    },
+    wipeShips({commit}) {
+        commit('WIPE_SHIPS')
+    },
+    resetShips({commit}) {
+        commit('RESET_SHIPS')
     }
 }
 

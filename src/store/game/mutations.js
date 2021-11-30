@@ -13,6 +13,9 @@ const mutations = {
         state.status = status
     },
     SET_TURNS: (state, turns) => {
+        state.turns = turns
+    },
+    SET_BOARD_TURNS: (state, turns) => {
         state.board.turns = turns
     },
     ADD_LOG: (state, log) => {
@@ -44,7 +47,7 @@ const mutations = {
         state.logs = []
     },
     RESET_TURNS: (state) => {
-        state.board.turns = 0
+        state.board.turns = state.modes.find(mode => mode.name === state.mode).turns
     },
     RESET_WON: (state) => {
         state.won = false
@@ -54,6 +57,28 @@ const mutations = {
     },
     RESET_SPACES: (state) => {
         state.board.spaces = []
+    },
+    ADD_HISTORY: (state, history) => {
+        state.history.push(history)
+    },
+    WIPE_SHIPS: (state) => {
+        const spaces = state.board.spaces;
+        spaces.forEach(row => {
+            row.forEach(space => {
+                space.ship = null
+            });
+        });
+
+        state.board.spaces = spaces
+    },
+    RESET_SHIPS: (state) => {
+        state.board.ships = [];
+    },
+    ADD_MOVE: (state) => {
+        state.moves++
+    },
+    RESET_MOVES: (state) => {
+        state.moves = 0
     }
 }
 

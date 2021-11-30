@@ -4,16 +4,19 @@
     <div class="container">
       <router-view />
     </div>
+    <FooterComponent />
   </div>
 </template>
 
 <script>
-import HeaderComponent from './components/layout/Header.vue'
+import HeaderComponent from './components/layout/Header.vue';
+import FooterComponent from './components/layout/Footer.vue';
 
 export default {
   name: 'App',
   components: {
-    HeaderComponent
+    HeaderComponent,
+    FooterComponent
   }
 }
 </script>
@@ -21,8 +24,13 @@ export default {
 <style>
 @import url(https://fonts.googleapis.com/css?family=Roboto:400,700);
 
+body {
+  margin: 0;
+  background-color: rgb(201, 170, 230);
+}
+
 .container {
-  max-width: 1500px;
+  /* max-width: 1500px; */
   margin: 0 auto;
 }
 

@@ -1,15 +1,14 @@
 <template>
-  <div>
-    Settings
-  </div>
+  <SettingsComponent />
 </template>
 
 <script>
-export default {
+import SettingsComponent from '@/components/Settings.vue';
 
+export default {
+  name: "Settings",
+  components: {
+    SettingsComponent
+  }
 }
 </script>
-
-<style>
-
-</style>

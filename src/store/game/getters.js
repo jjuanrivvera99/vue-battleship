@@ -6,10 +6,11 @@ const getters = {
     board: state => state.board,
     spaces: state => state.board.spaces,
     ships: state => state.board.ships,
-    turns: state => state.board.turns,
-    history: state => state.board.history,
+    turns: state => state.turns,
+    history: state => state.history,
     modes: state => state.modes,
     won: state => state.won,
+    moves: state => state.moves,
 }
 
 export default getters

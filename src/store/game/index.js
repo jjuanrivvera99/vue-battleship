@@ -5,26 +5,38 @@ import actions from "./actions"
 const inistialState = () => ({
     won: false,
     status: "unstarted",
-    mode: "medium",
+    mode: "hard",
+    moves: 0,
     board: {
         ships: [],
         spaces: [],
+        turns: 50,
         size: 11
     },
     history: [],
-    turns: 0,
+    turns: 50,
     logs: [],
-    modes: {
-        "easy": {
-            turns: 1
+    modes: [
+        {
+            name: "easy",
+            listable: true,
+            turns: "infinite"
         },
-        "medium": {
+        {
+            name: "medium",
+            listable: true,
             turns: 100
         },
-        "hard": {
+        {
+            name: "hard",
+            listable: true,
             turns: 50
+        },
+        {
+            name: "custom",
+            listable: true,
         }
-    }
+    ]
 })
 
 const state = inistialState()

@@ -25,7 +25,7 @@
         <div
           v-if="cell.x > 0 && cell.y > 0"
           class="space"
-          :class="{ missed: cell.missed, hited: cell.hited, ship: status === 'over' && cell.ship }"
+          :class="{ missed: cell.missed, hited: cell.hited, unused: !cell.missed && !cell.hited && status !== 'unstarted' ,ship: status === 'over' && cell.ship }"
         />
       </td>
     </tr>
@@ -33,9 +33,12 @@
 </template>
 
 <script>
-import {mapGetters, mapActions} from "vuex";
+  import {
+    mapGetters,
+    mapActions
+  } from "vuex";
 
-export default {
+  export default {
     name: 'Board',
     data() {
       return {
@@ -45,58 +48,57 @@ export default {
       }
     },
     computed: {
-        ...mapGetters({
-            spaces: "game/spaces",
-            status: "game/status",
-        })
+      ...mapGetters({
+        spaces: "game/spaces",
+        status: "game/status",
+      })
     },
     methods: {
-        ...mapActions("game", ["hit"]),
+      ...mapActions("game", ["hit"]),
     }
-}
+  }
 </script>
 
-<style>
-.board {
+<style scoped>
+  .board {
     border: 1px solid black;
     border-radius: 5px;
     padding: 10px;
-}
+    /* background-color: white; */
+  }
 
-.rows
-.columns {
+  .rows .columns {
     width: 40px;
     height: 40px;
-}
+  }
 
-.columns {
+  .columns {
     text-align: center;
-}
+  }
 
-.space {
+  .space {
     width: 40px;
     height: 40px;
     border: 1px solid black;
-    background-color: aqua;
-}
+    background-color: #432e5f;
+  }
 
-.space:hover {
+  .unused:hover {
     opacity: 0.2;
-}
+  }
 
-.ship {
+  .ship {
     background-color: gray;
     width: 40px;
     height: 40px;
     border: 1px solid black;
-}
+  }
 
-.hited {
-    background-color: red;
-}
+  .hited {
+    background-color: #8d006e;
+  }
 
-.missed {
-    background-color: blue;
-}
-
+  .missed {
+    background-color: #3d008d;
+  }
 </style>

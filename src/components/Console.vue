@@ -44,11 +44,13 @@ export default {
 
 <style>
 .console {
-    border: 1px solid black;
+    border: 3px solid #3d008d;
     border-radius: 5px;
     height: 500px;
     scroll-behavior: auto;
     overflow-y: scroll;
+    text-align: center;
+    /* background-color: white; */
 }
 
 .log {
@@ -57,17 +59,18 @@ export default {
     border-radius: 5px;
     margin-bottom: 10px;
     margin-left: -30px;
+    border: 1.5px solid #3d008d;
 }
 
-.log-miss {
-    border: 1px solid blue;
-}
+/* .log-miss {
+    border: 1px solid rgb(19, 1, 29);
+} */
 
-.log-hit {
-    border: 1px solid red;
-}
+/* .log-hit {
+    border: 1px solid #8d006e;
+} */
 
-.log-info {
-    border: 1px solid gray;
-}
+/* .log-info {
+    border: 1px solid greenyellow;
+} */
 </style>
